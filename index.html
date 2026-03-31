@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
   <title>Goods Sort Prototype</title>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     :root {
       --bg1: #101028;
@@ -19,16 +24,18 @@
       --slot: rgba(10, 10, 20, 0.28);
       --slot-border: rgba(255, 255, 255, 0.18);
       --text-dim: #9ca0c6;
-      --tray: #234258;
-      --tray-border: #49738f;
     }
 
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background: radial-gradient(circle at top, #1d1d4b 0%, #101028 45%, #09091c 100%);
+      background:
+        radial-gradient(circle at top, #1d1d4b 0%, #101028 45%, #09091c 100%);
       color: #fff;
       font-family: Arial, sans-serif;
       display: flex;
@@ -41,22 +48,22 @@
 
     .top-ui {
       margin-top: 14px;
-      width: min(360px, 92vw);
-      height: 72px;
+      width: min(390px, 94vw);
+      height: 78px;
       background: var(--purple);
       border: 4px solid var(--yellow);
       border-radius: 24px;
       display: flex;
       align-items: center;
-      padding: 0 12px;
+      padding: 0 14px;
       box-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
       position: relative;
       z-index: 2;
     }
 
     .energy {
-      width: 48px;
-      height: 48px;
+      width: 50px;
+      height: 50px;
       border-radius: 14px;
       background: linear-gradient(180deg, #ff59ff 0%, #d930ff 100%);
       border: 3px solid #fff;
@@ -70,7 +77,7 @@
     .bar-wrap {
       margin: 0 12px;
       flex: 1;
-      height: 24px;
+      height: 26px;
       border-radius: 999px;
       overflow: hidden;
       position: relative;
@@ -78,131 +85,307 @@
       border: 2px solid #2d0d50;
     }
 
-    #bar-fill { width: 0%; height: 100%; background: var(--green); transition: width 0.25s ease; }
-
-    .bar-label {
-      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 15px; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); pointer-events: none;
+    #bar-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--green);
+      transition: width 0.25s ease;
     }
 
-    .gift { font-size: 42px; flex-shrink: 0; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.45)); }
+    .bar-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+      pointer-events: none;
+    }
+
+    .gift {
+      font-size: 42px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.45));
+    }
 
     .board {
-      width: min(560px, 94vw);
+      width: min(780px, 96vw);
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      padding: 22px 10px 10px;
+      grid-template-columns: repeat(3, minmax(190px, 1fr));
+      gap: 18px;
+      padding: 26px 18px 14px;
       flex: 1;
       align-content: start;
+      justify-content: center;
     }
 
     .shelf {
-      height: 92px;
-      border-radius: 16px;
+      height: 124px;
+      min-height: 124px;
+      max-height: 124px;
+      border-radius: 18px;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%),
         linear-gradient(180deg, #40435d 0%, #2e3148 100%);
       border: 2px solid var(--panel-border);
-      box-shadow: inset 0 0 18px rgba(255,255,255,0.08), 0 3px 0 rgba(0,0,0,0.18);
+      box-shadow:
+        inset 0 0 18px rgba(255,255,255,0.08),
+        0 3px 0 rgba(0,0,0,0.18);
       position: relative;
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      padding: 8px;
+      padding: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .slot, .tray-slot {
-      width: 30%; height: 78%; border-radius: 10px; background: var(--slot);
-      border: 1px dashed var(--slot-border); display: flex; align-items: center; justify-content: center; overflow: visible;
+    .slot {
+      width: 31%;
+      height: 84px;
+      min-height: 84px;
+      max-height: 84px;
+      border-radius: 12px;
+      background: var(--slot);
+      border: 1px dashed var(--slot-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      flex-shrink: 0;
     }
 
-    .slot.highlight, .tray-slot.highlight {
+    .slot.highlight {
       outline: 2px solid rgba(255, 203, 40, 0.75);
       outline-offset: -2px;
       background: rgba(255, 203, 40, 0.08);
     }
 
     .item {
-      width: 58px; height: 58px; border-radius: 14px; cursor: grab; position: relative; z-index: 5;
-      display: flex; align-items: center; justify-content: center; touch-action: none;
+      width: 78px;
+      height: 78px;
+      min-width: 78px;
+      min-height: 78px;
+      border-radius: 16px;
+      cursor: grab;
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      flex-shrink: 0;
     }
 
     .item.dragging {
-      cursor: grabbing; z-index: 9999; transform: scale(1.05); filter: drop-shadow(0 10px 12px rgba(0,0,0,0.35));
+      cursor: grabbing;
+      z-index: 9999;
+      transform: scale(1.05);
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,0.35));
     }
 
-    .item.locked { pointer-events: none; opacity: 0.96; }
-    .item img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .item.locked {
+      pointer-events: none;
+      opacity: 0.96;
+    }
+
+    .item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
 
     .shutter {
-      position: absolute; inset: 0; border-radius: 16px; display: none; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.14); border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(8px); font-size: 38px; z-index: 20;
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.14);
+      border: 2px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+      font-size: 38px;
+      z-index: 20;
     }
-    .shelf.completed .shutter { display: flex; }
 
-    .tray-wrap {
-      width: min(420px, 88vw);
+    .shelf.completed .shutter {
+      display: flex;
+    }
+
+    .bottom {
+      width: 100%;
+      padding: 4px 0 18px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      flex-shrink: 0;
+    }
+
+    .temp-storage-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .temp-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      color: #a8c7ff;
       margin-bottom: 8px;
     }
 
-    .tray-label { color: var(--text-dim); font-size: 12px; margin-bottom: 6px; letter-spacing: 0.4px; }
-
-    .tray {
-      width: 100%;
+    .temp-storage {
+      width: min(420px, 88vw);
       height: 78px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), linear-gradient(180deg, #24445c, #1a3246);
-      border: 2px solid var(--tray-border);
+      border-radius: 18px;
+      background: linear-gradient(180deg, #2d5a7c 0%, #23435f 100%);
+      border: 2px solid rgba(173, 224, 255, 0.28);
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       gap: 14px;
-      padding: 8px 14px;
+      padding: 10px 14px;
+      box-shadow: inset 0 0 18px rgba(255,255,255,0.08);
     }
 
-    .tray-slot { width: 70px; height: 58px; }
+    .temp-slot {
+      width: 72px;
+      height: 58px;
+      border-radius: 12px;
+      background: rgba(10, 10, 20, 0.22);
+      border: 1px dashed rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-    .bottom { width: 100%; padding: 0 0 18px; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
     .crate-stand {
-      width: 150px; height: 42px; border-radius: 50%; background: radial-gradient(circle at center, #2f4a63 0%, #23384b 70%, #1a2937 100%);
-      margin-bottom: 50px; position: relative;
+      width: 170px;
+      height: 48px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #2f4a63 0%, #23384b 70%, #1a2937 100%);
+      margin-bottom: 56px;
+      position: relative;
     }
-    .crate-art { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); font-size: 78px; cursor: pointer; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.35)); }
-    .crate-btn {
-      min-width: 160px; height: 70px; padding: 0 26px; border: 0; border-radius: 28px; background: var(--purple); color: #fff;
-      font-weight: 900; font-size: 24px; border: 3px solid #c9b4ff; box-shadow: 0 7px 0 var(--purple-dark);
-      display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer;
-    }
-    .crate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .hint { margin-top: 12px; min-height: 18px; font-size: 14px; color: var(--text-dim); letter-spacing: 0.2px; }
+    .crate-art {
+      position: absolute;
+      left: 50%;
+      bottom: 10px;
+      transform: translateX(-50%);
+      font-size: 78px;
+      cursor: pointer;
+      filter: drop-shadow(0 10px 10px rgba(0,0,0,0.35));
+    }
+
+    .crate-btn {
+      min-width: 178px;
+      height: 76px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: 30px;
+      background: var(--purple);
+      color: #fff;
+      font-weight: 900;
+      font-size: 24px;
+      border: 3px solid #c9b4ff;
+      box-shadow: 0 7px 0 var(--purple-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .crate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      margin-top: 12px;
+      min-height: 18px;
+      font-size: 14px;
+      color: var(--text-dim);
+      letter-spacing: 0.2px;
+    }
 
     #win {
-      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.94); z-index: 2000; display: none; flex-direction: column;
-      align-items: center; justify-content: center; text-align: center; padding: 24px;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 2000;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
     }
-    .reward { margin-top: 10px; background: var(--yellow); color: #111; font-weight: 900; font-size: 28px; border-radius: 26px; padding: 14px 34px; }
-    .replay { margin-top: 18px; border: 0; border-radius: 12px; padding: 12px 20px; font-weight: 700; cursor: pointer; }
 
-    .supply-box {
-      position: fixed; top: 94px; right: 10px; z-index: 3; width: min(180px, 40vw); font-size: 11px;
-      background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 8px 10px; color: #d7daf3;
-      backdrop-filter: blur(6px);
+    .reward {
+      margin-top: 10px;
+      background: var(--yellow);
+      color: #111;
+      font-weight: 900;
+      font-size: 28px;
+      border-radius: 26px;
+      padding: 14px 34px;
     }
-    .supply-row { display: flex; justify-content: space-between; margin-top: 4px; }
 
-    @media (max-width: 560px) {
-      .supply-box { display: none; }
+    .replay {
+      margin-top: 18px;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: 700;
+      cursor: pointer;
     }
-    @media (max-width: 420px) {
-      .board { gap: 12px; }
-      .shelf { height: 84px; }
-      .item { width: 52px; height: 52px; }
-      .tray-slot { width: 62px; height: 54px; }
+
+    @media (max-width: 640px) {
+      body {
+        overflow-y: auto;
+      }
+
+      .board {
+        width: 96vw;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 18px 10px 10px;
+      }
+
+      .shelf {
+        height: 110px;
+        min-height: 110px;
+        max-height: 110px;
+      }
+
+      .slot {
+        height: 76px;
+        min-height: 76px;
+        max-height: 76px;
+      }
+
+      .item {
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+        min-height: 70px;
+      }
+
+      .temp-storage {
+        width: 92vw;
+      }
     }
   </style>
 </head>
@@ -216,23 +399,25 @@
     <div class="gift">🎁</div>
   </div>
 
-  <div class="supply-box" id="supply-box"></div>
-
   <div class="board" id="board"></div>
 
-  <div class="tray-wrap">
-    <div class="tray-label">TEMP STORAGE</div>
-    <div class="tray" id="tray"></div>
-  </div>
-
   <div class="bottom">
+    <div class="temp-storage-wrap">
+      <div class="temp-title">TEMP STORAGE</div>
+      <div class="temp-storage" id="temp-storage">
+        <div class="temp-slot"></div>
+        <div class="temp-slot"></div>
+        <div class="temp-slot"></div>
+      </div>
+    </div>
+
     <div class="crate-stand" onclick="openCrate()">
       <div class="crate-art" id="crate-art">📦</div>
     </div>
 
     <button class="crate-btn" id="crate-btn" onclick="openCrate()">
       <span style="font-size:28px;">⛏️</span>
-      <span id="crate-count">30</span>
+      <span id="crate-count">50</span>
     </button>
 
     <div class="hint" id="hint">DRAG TO SORT</div>
@@ -246,48 +431,84 @@
   </div>
 
   <script>
-    const ASSET_BASE = './';
+    const ASSET_BASE = "./";
 
     const CATEGORY_ASSETS = {
-      jewelry: ['T_Bracelet_1.png', 'T_Clock.png', 'T_Crown.png', 'T_Earring.png', 'T_Ring.png', 'T_Necklace.png'],
-      food: ['T_Hamburger.png', 'T_Taco.png', 'T_Sushi.png', 'T_IceCream.png', 'T_Hotdog.png', 'T_Pizza.png', 'T_Fries.png', 'T_Cake.png'],
-      cinema: ['T_Popcorn.png', 'T_Oscar.png', 'T_Megaphone.png', 'T_Clapper.png'],
-      beauty: ['T_Mirror.png', 'T_Lipstick.png', 'T_NailVarnish.png', 'T_Perfume.png'],
-      fruits: ['T_Grape (1).png', 'T_Orange (1).png', 'T_Strawberry (1).png', 'T_RedApple (1).png', 'T_GreenApple (1).png', 'T_Cherry (1).png'],
-      flowers: ['T_Flower_Purple (1).png', 'T_Rose (1).png', 'T_Sunflower (1).png', 'T_Tulip (1).png', 'T_Daisy (1).png', 'T_Flower_Pink (1).png']
+      jewelry: [
+        "T_Bracelet_1.png",
+        "T_Clock.png",
+        "T_Crown.png",
+        "T_Earring.png",
+        "T_Ring.png",
+        "T_Necklace.png"
+      ],
+      food: [
+        "T_Hamburger.png",
+        "T_Taco.png",
+        "T_Sushi.png",
+        "T_IceCream.png",
+        "T_Hotdog.png",
+        "T_Pizza.png",
+        "T_Fries.png",
+        "T_Cake.png"
+      ],
+      cinema: [
+        "T_Popcorn.png",
+        "T_Oscar.png",
+        "T_Megaphone.png",
+        "T_Clapper.png"
+      ],
+      beauty: [
+        "T_Mirror.png",
+        "T_Lipstick.png",
+        "T_NailVarnish.png",
+        "T_Perfume.png"
+      ],
+      fruits: [
+        "T_Grape (1).png",
+        "T_Orange (1).png",
+        "T_Strawberry (1).png",
+        "T_RedApple (1).png",
+        "T_GreenApple (1).png",
+        "T_Cherry (1).png"
+      ],
+      flowers: [
+        "T_Flower_Purple (1).png",
+        "T_Rose (1).png",
+        "T_Sunflower (1).png",
+        "T_Tulip (1).png",
+        "T_Daisy (1).png",
+        "T_Flower_Pink (1).png"
+      ]
     };
 
-    // 27 total items, all divisible by 3.
-    // Stronger than pure weighted random because level has a finite solvable supply.
     const LEVEL_POOL = {
       jewelry: 6,
-      food: 6,
+      food: 9,
       cinema: 3,
       beauty: 3,
       fruits: 6,
       flowers: 3
     };
 
-    const boardEl = document.getElementById('board');
-    const trayEl = document.getElementById('tray');
-    const barFillEl = document.getElementById('bar-fill');
-    const barTextEl = document.getElementById('bar-text');
-    const crateCountEl = document.getElementById('crate-count');
-    const crateBtnEl = document.getElementById('crate-btn');
-    const hintEl = document.getElementById('hint');
-    const winEl = document.getElementById('win');
-    const supplyBoxEl = document.getElementById('supply-box');
+    const boardEl = document.getElementById("board");
+    const barFillEl = document.getElementById("bar-fill");
+    const barTextEl = document.getElementById("bar-text");
+    const crateCountEl = document.getElementById("crate-count");
+    const crateBtnEl = document.getElementById("crate-btn");
+    const hintEl = document.getElementById("hint");
+    const winEl = document.getElementById("win");
+    const tempStorageEl = document.getElementById("temp-storage");
 
     const SHELF_COUNT = 9;
     const SLOT_PER_SHELF = 3;
-    const TEMP_SLOT_COUNT = 3;
     const TARGET_SCORE = 200;
     const CRATE_COST = 5;
-    const MAX_MEMORY = 5;
+    const MAX_MOVES_MEMORY = 4;
     const PHASE_OPEN_1 = 3;
     const PHASE_OPEN_2 = 6;
 
-    let crowbars = 30;
+    let crowbars = 50;
     let completedShelves = 0;
     let gameEnded = false;
     let crateOpenCount = 0;
@@ -300,87 +521,74 @@
       if (ms > 0) {
         clearTimeout(showHint._t);
         showHint._t = setTimeout(() => {
-          if (!gameEnded) hintEl.textContent = 'DRAG TO SORT';
+          if (!gameEnded) hintEl.textContent = "DRAG TO SORT";
         }, ms);
       }
     }
 
-    function getTotalRemainingSupply() {
-      return Object.values(remainingSupply).reduce((a, b) => a + b, 0);
-    }
-
-    function updateSupplyBox() {
-      const rows = Object.entries(remainingSupply)
-        .map(([cat, count]) => `<div class="supply-row"><span>${cat}</span><span>${count}</span></div>`)
-        .join('');
-      supplyBoxEl.innerHTML = `<div style="font-weight:700; margin-bottom:4px;">Remaining supply</div>${rows}`;
-    }
-
     function updateUI() {
       crateCountEl.textContent = crowbars;
-      const remainingTotal = getTotalRemainingSupply();
-      crateBtnEl.disabled = crowbars < CRATE_COST || gameEnded || remainingTotal <= 0;
+      crateBtnEl.disabled = crowbars < CRATE_COST || gameEnded;
 
       const score = Math.round((completedShelves / SHELF_COUNT) * TARGET_SCORE);
       barFillEl.style.width = `${(score / TARGET_SCORE) * 100}%`;
       barTextEl.textContent = `${score} / ${TARGET_SCORE}`;
-      updateSupplyBox();
     }
 
     function createBoard() {
       for (let i = 0; i < SHELF_COUNT; i++) {
-        const shelf = document.createElement('div');
-        shelf.className = 'shelf';
+        const shelf = document.createElement("div");
+        shelf.className = "shelf";
         shelf.dataset.id = i;
 
-        const shutter = document.createElement('div');
-        shutter.className = 'shutter';
-        shutter.textContent = '✅';
+        const shutter = document.createElement("div");
+        shutter.className = "shutter";
+        shutter.textContent = "✅";
         shelf.appendChild(shutter);
 
         for (let j = 0; j < SLOT_PER_SHELF; j++) {
-          const slot = document.createElement('div');
-          slot.className = 'slot';
+          const slot = document.createElement("div");
+          slot.className = "slot";
           slot.dataset.slot = j;
           shelf.appendChild(slot);
         }
 
         boardEl.appendChild(shelf);
       }
-
-      for (let i = 0; i < TEMP_SLOT_COUNT; i++) {
-        const slot = document.createElement('div');
-        slot.className = 'tray-slot';
-        slot.dataset.tray = i;
-        trayEl.appendChild(slot);
-      }
     }
 
-    function getShelves() { return [...document.querySelectorAll('.shelf')]; }
-    function isShelfCompleted(shelf) { return shelf.classList.contains('completed'); }
-    function getOpenShelves() { return getShelves().filter(shelf => !isShelfCompleted(shelf)); }
-    function getShelfSlots(shelf) { return [...shelf.querySelectorAll('.slot')]; }
-    function getShelfItems(shelf) { return [...shelf.querySelectorAll('.item')]; }
-    function getTraySlots() { return [...document.querySelectorAll('.tray-slot')]; }
-    function getAllPlayableSlots() { return [...document.querySelectorAll('.slot, .tray-slot')]; }
-
-    function getEmptyShelfSlots() {
-      return getOpenShelves().flatMap(shelf => getShelfSlots(shelf).filter(slot => !slot.hasChildNodes()));
+    function getShelves() {
+      return [...document.querySelectorAll(".shelf")];
     }
 
-    function getEmptyTraySlots() {
-      return getTraySlots().filter(slot => !slot.hasChildNodes());
+    function isShelfCompleted(shelf) {
+      return shelf.classList.contains("completed");
     }
 
-    function getBoardCategoryCounts() {
-      const counts = {};
-      [...getOpenShelves(), trayEl].forEach(container => {
-        container.querySelectorAll('.item').forEach(item => {
-          const cat = item.dataset.category;
-          counts[cat] = (counts[cat] || 0) + 1;
-        });
-      });
-      return counts;
+    function getOpenShelves() {
+      return getShelves().filter(shelf => !isShelfCompleted(shelf));
+    }
+
+    function getShelfSlots(shelf) {
+      return [...shelf.querySelectorAll(".slot")];
+    }
+
+    function getShelfItems(shelf) {
+      return [...shelf.querySelectorAll(".item")];
+    }
+
+    function getEmptySlots() {
+      return getOpenShelves().flatMap(shelf =>
+        getShelfSlots(shelf).filter(slot => !slot.hasChildNodes())
+      );
+    }
+
+    function getTempSlots() {
+      return [...document.querySelectorAll(".temp-slot")];
+    }
+
+    function getEmptyTempSlots() {
+      return getTempSlots().filter(slot => !slot.hasChildNodes());
     }
 
     function shuffle(arr) {
@@ -392,37 +600,32 @@
       return copy;
     }
 
-    function getPhase() {
-      if (crateOpenCount < PHASE_OPEN_1) return 'early';
-      if (crateOpenCount < PHASE_OPEN_2) return 'mid';
-      return 'late';
+    function getOpenBoardCategoryCounts() {
+      const counts = {};
+      getOpenShelves().forEach(shelf => {
+        getShelfItems(shelf).forEach(item => {
+          const cat = item.dataset.category;
+          counts[cat] = (counts[cat] || 0) + 1;
+        });
+      });
+
+      getTempSlots().forEach(slot => {
+        const item = slot.querySelector(".item");
+        if (!item) return;
+        const cat = item.dataset.category;
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+
+      return counts;
     }
 
-    function getSpawnCount() {
-      const phase = getPhase();
-      const emptyShelfSlots = getEmptyShelfSlots().length;
-      const remaining = getTotalRemainingSupply();
-      if (emptyShelfSlots <= 0 || remaining <= 0) return 0;
-
-      let count;
-      if (phase === 'early') {
-        count = [4, 4, 3][Math.floor(Math.random() * 3)];
-      } else if (phase === 'mid') {
-        count = [3, 3, 2][Math.floor(Math.random() * 3)];
-      } else {
-        count = [2, 2, 3][Math.floor(Math.random() * 3)];
-      }
-      return Math.min(count, emptyShelfSlots, remaining);
-    }
-
-    function weightedPick(list) {
-      const total = list.reduce((sum, it) => sum + it.weight, 0);
-      let roll = Math.random() * total;
-      for (const item of list) {
-        roll -= item.weight;
-        if (roll <= 0) return item.value;
-      }
-      return list[list.length - 1].value;
+    function getShelfCategoryCounts(shelf) {
+      const counts = {};
+      getShelfItems(shelf).forEach(item => {
+        const cat = item.dataset.category;
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+      return counts;
     }
 
     function getSupportData() {
@@ -432,10 +635,9 @@
       getOpenShelves().forEach(shelf => {
         const items = getShelfItems(shelf);
         if (items.length === 0) return;
-        const counts = {};
-        items.forEach(item => {
-          counts[item.dataset.category] = (counts[item.dataset.category] || 0) + 1;
-        });
+
+        const counts = getShelfCategoryCounts(shelf);
+
         Object.entries(counts).forEach(([cat, count]) => {
           if (count === 2) twoOfKinds.push(cat);
           if (count === 1) oneOfKinds.push(cat);
@@ -445,91 +647,146 @@
       return { twoOfKinds, oneOfKinds };
     }
 
-    function pickSpawnCategory() {
+    function getPhase() {
+      if (crateOpenCount < PHASE_OPEN_1) return "early";
+      if (crateOpenCount < PHASE_OPEN_2) return "mid";
+      return "late";
+    }
+
+    function getSpawnCount() {
       const phase = getPhase();
-      const boardCounts = getBoardCategoryCounts();
+      const empty = getEmptySlots().length;
+
+      let count = 3;
+
+      if (phase === "early") {
+        const options = [4, 4, 3];
+        count = options[Math.floor(Math.random() * options.length)];
+      } else if (phase === "mid") {
+        const options = [3, 3, 2];
+        count = options[Math.floor(Math.random() * options.length)];
+      } else {
+        const options = [2, 2, 3];
+        count = options[Math.floor(Math.random() * options.length)];
+      }
+
+      return Math.min(count, empty);
+    }
+
+    function weightedPick(list) {
+      const total = list.reduce((sum, it) => sum + it.weight, 0);
+      let roll = Math.random() * total;
+
+      for (const item of list) {
+        roll -= item.weight;
+        if (roll <= 0) return item.value;
+      }
+
+      return list[list.length - 1].value;
+    }
+
+    function getAvailableCategories() {
+      return Object.keys(remainingSupply).filter(cat => remainingSupply[cat] > 0);
+    }
+
+    function pickCategory() {
+      const phase = getPhase();
+      const availableCats = getAvailableCategories();
+      if (availableCats.length === 0) return null;
+
+      const boardCounts = getOpenBoardCategoryCounts();
       const { twoOfKinds, oneOfKinds } = getSupportData();
 
-      const candidates = Object.entries(remainingSupply)
-        .filter(([, count]) => count > 0)
-        .map(([cat, remain]) => {
-          let weight = 1;
-          const boardCount = boardCounts[cat] || 0;
-          const mod = boardCount % 3;
-          const twoCount = twoOfKinds.filter(x => x === cat).length;
-          const oneCount = oneOfKinds.filter(x => x === cat).length;
+      const categoryWeights = [];
 
-          if (phase === 'early') {
-            weight += twoCount * 1.8;
-            weight += oneCount * 1.0;
-            weight += boardCount === 0 ? 1.2 : 0.2;
-          } else if (phase === 'mid') {
-            weight += twoCount * 3.2;
-            weight += oneCount * 1.7;
-            weight += mod === 2 ? 1.2 : 0;
-            weight += boardCount === 0 ? 0.4 : 0.3;
-          } else {
-            weight += twoCount * 5.4;
-            weight += oneCount * 2.0;
-            weight += mod === 2 ? 1.6 : 0;
-            weight += boardCount === 0 ? 0.05 : 0.4;
-          }
+      availableCats.forEach(cat => {
+        let weight = 1;
 
-          // If only 1 supply remains and board has none, discourage opening a fresh lonely category late.
-          if (remain === 1 && boardCount === 0 && phase !== 'early') {
-            weight *= 0.15;
-          }
+        const twoCount = twoOfKinds.filter(x => x === cat).length;
+        const oneCount = oneOfKinds.filter(x => x === cat).length;
+        const boardCount = boardCounts[cat] || 0;
+        const supply = remainingSupply[cat] || 0;
 
-          // If only 2 remain and board has none, still discourage late.
-          if (remain === 2 && boardCount === 0 && phase === 'late') {
-            weight *= 0.25;
-          }
+        if (phase === "early") {
+          weight += twoCount * 2.0;
+          weight += oneCount * 0.9;
+          weight += boardCount === 0 ? 1.4 : 0;
+        } else if (phase === "mid") {
+          weight += twoCount * 3.2;
+          weight += oneCount * 1.4;
+          weight += boardCount === 0 ? 0.5 : 0;
+        } else {
+          weight += twoCount * 4.6;
+          weight += oneCount * 1.8;
+          weight += boardCount === 0 ? 0.1 : 0;
+        }
 
-          const recentPenalty = recentCategoryHistory.filter(x => x === cat).length;
-          weight -= recentPenalty * 0.45;
+        weight += Math.min(supply, 3) * 0.25;
 
-          if (weight < 0.1) weight = 0.1;
-          return { value: cat, weight };
+        const recentPenalty = recentCategoryHistory.filter(x => x === cat).length;
+        weight -= recentPenalty * 0.6;
+
+        if (weight < 0.2) weight = 0.2;
+
+        categoryWeights.push({
+          value: cat,
+          weight
         });
+      });
 
-      return weightedPick(candidates);
+      return weightedPick(categoryWeights);
     }
 
     function pickAssetForCategory(category) {
       const pool = CATEGORY_ASSETS[category];
+
       const weighted = pool.map(file => {
         let weight = 1;
+
         const recentCount = recentAssetHistory.filter(x => x === file).length;
-        weight -= recentCount * 0.3;
+        weight -= recentCount * 0.35;
+
         if (weight < 0.15) weight = 0.15;
+
         return { value: file, weight };
       });
+
       return weightedPick(weighted);
     }
 
     function rememberSpawn(category, asset) {
       recentCategoryHistory.push(category);
       recentAssetHistory.push(asset);
-      if (recentCategoryHistory.length > MAX_MEMORY) recentCategoryHistory.shift();
-      if (recentAssetHistory.length > MAX_MEMORY) recentAssetHistory.shift();
+
+      if (recentCategoryHistory.length > MAX_MOVES_MEMORY) {
+        recentCategoryHistory.shift();
+      }
+
+      if (recentAssetHistory.length > MAX_MOVES_MEMORY) {
+        recentAssetHistory.shift();
+      }
     }
 
     function createItem(category, assetFile) {
-      const item = document.createElement('div');
-      item.className = 'item';
+      const item = document.createElement("div");
+      item.className = "item";
       item.dataset.category = category;
       item.dataset.asset = assetFile;
 
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = ASSET_BASE + assetFile;
       img.alt = category;
+
       item.appendChild(img);
       attachDrag(item);
+
       return item;
     }
 
-    function clearHighlights() {
-      document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+    function clearSlotHighlights() {
+      document.querySelectorAll(".slot.highlight, .temp-slot.highlight").forEach(el => {
+        el.classList.remove("highlight");
+      });
     }
 
     function attachDrag(item) {
@@ -538,93 +795,143 @@
       let originSlot = null;
 
       function getPoint(e) {
-        if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        if (e.changedTouches && e.changedTouches[0]) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+        if (e.touches && e.touches[0]) {
+          return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+        if (e.changedTouches && e.changedTouches[0]) {
+          return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+        }
         return { x: e.clientX, y: e.clientY };
       }
 
       function moveHandler(e) {
         e.preventDefault();
         const point = getPoint(e);
+
         item.style.left = `${point.x - startX}px`;
         item.style.top = `${point.y - startY}px`;
 
-        clearHighlights();
+        clearSlotHighlights();
+
         const target = document.elementFromPoint(point.x, point.y);
-        const slot = target ? target.closest('.slot, .tray-slot') : null;
-        if (slot && !slot.hasChildNodes() && (!slot.classList.contains('slot') || !isShelfCompleted(slot.closest('.shelf')))) {
-          slot.classList.add('highlight');
+        const slot = target ? target.closest(".slot, .temp-slot") : null;
+
+        if (slot && !slot.hasChildNodes()) {
+          if (slot.classList.contains("slot")) {
+            const shelf = slot.closest(".shelf");
+            if (!isShelfCompleted(shelf)) {
+              slot.classList.add("highlight");
+            }
+          } else {
+            slot.classList.add("highlight");
+          }
         }
+      }
+
+      function stabilizeShelf(slot) {
+        const shelf = slot && slot.closest(".shelf");
+        if (!shelf) return;
+        shelf.style.height = "124px";
+        shelf.style.minHeight = "124px";
+        void shelf.offsetHeight;
       }
 
       function endHandler(e) {
         e.preventDefault();
-        window.removeEventListener('mousemove', moveHandler);
-        window.removeEventListener('mouseup', endHandler);
-        window.removeEventListener('touchmove', moveHandler);
-        window.removeEventListener('touchend', endHandler);
-        window.removeEventListener('touchcancel', endHandler);
 
-        clearHighlights();
+        window.removeEventListener("mousemove", moveHandler);
+        window.removeEventListener("mouseup", endHandler);
+        window.removeEventListener("touchmove", moveHandler);
+        window.removeEventListener("touchend", endHandler);
+        window.removeEventListener("touchcancel", endHandler);
+
+        clearSlotHighlights();
+
         const point = getPoint(e);
         const target = document.elementFromPoint(point.x, point.y);
-        const targetSlot = target ? target.closest('.slot, .tray-slot') : null;
+        const targetSlot = target ? target.closest(".slot, .temp-slot") : null;
 
-        item.classList.remove('dragging');
-        item.style.pointerEvents = 'auto';
-        item.style.position = 'relative';
-        item.style.left = '0';
-        item.style.top = '0';
+        item.classList.remove("dragging");
+        item.style.pointerEvents = "auto";
+        item.style.position = "relative";
+        item.style.left = "0";
+        item.style.top = "0";
 
-        const validDrop = targetSlot && !targetSlot.hasChildNodes() && (!targetSlot.classList.contains('slot') || !isShelfCompleted(targetSlot.closest('.shelf')));
+        let validDrop = false;
+
+        if (targetSlot && !targetSlot.hasChildNodes()) {
+          if (targetSlot.classList.contains("slot")) {
+            const shelf = targetSlot.closest(".shelf");
+            validDrop = !isShelfCompleted(shelf);
+          } else {
+            validDrop = true;
+          }
+        }
 
         if (validDrop) {
           targetSlot.appendChild(item);
-          if (targetSlot.classList.contains('slot')) checkShelf(targetSlot.closest('.shelf'));
+
+          if (targetSlot.classList.contains("slot")) {
+            stabilizeShelf(targetSlot);
+            checkShelf(targetSlot.closest(".shelf"));
+          }
         } else {
           originSlot.appendChild(item);
+
+          if (originSlot.classList.contains("slot")) {
+            stabilizeShelf(originSlot);
+          }
         }
       }
 
       function startHandler(e) {
         if (gameEnded) return;
-        if (item.classList.contains('locked')) return;
-        const shelf = item.closest('.shelf');
+        if (item.classList.contains("locked")) return;
+
+        const shelf = item.closest(".shelf");
         if (shelf && isShelfCompleted(shelf)) return;
 
         e.preventDefault();
+
         originSlot = item.parentElement;
         if (!originSlot) return;
 
         const rect = item.getBoundingClientRect();
         const point = getPoint(e);
+
         startX = point.x - rect.left;
         startY = point.y - rect.top;
 
-        item.classList.add('dragging');
-        item.style.position = 'fixed';
+        item.classList.add("dragging");
+        item.style.position = "fixed";
         item.style.left = `${rect.left}px`;
         item.style.top = `${rect.top}px`;
-        item.style.pointerEvents = 'none';
+        item.style.pointerEvents = "none";
+
         document.body.appendChild(item);
 
-        window.addEventListener('mousemove', moveHandler);
-        window.addEventListener('mouseup', endHandler);
-        window.addEventListener('touchmove', moveHandler, { passive: false });
-        window.addEventListener('touchend', endHandler, { passive: false });
-        window.addEventListener('touchcancel', endHandler, { passive: false });
+        window.addEventListener("mousemove", moveHandler);
+        window.addEventListener("mouseup", endHandler);
+        window.addEventListener("touchmove", moveHandler, { passive: false });
+        window.addEventListener("touchend", endHandler, { passive: false });
+        window.addEventListener("touchcancel", endHandler, { passive: false });
       }
 
-      item.addEventListener('mousedown', startHandler);
-      item.addEventListener('touchstart', startHandler, { passive: false });
+      item.addEventListener("mousedown", startHandler);
+      item.addEventListener("touchstart", startHandler, { passive: false });
     }
 
     function completeShelf(shelf) {
       if (isShelfCompleted(shelf)) return;
-      shelf.classList.add('completed');
-      getShelfItems(shelf).forEach(item => item.classList.add('locked'));
 
-      gsap.fromTo(shelf.querySelector('.shutter'), { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25 });
+      shelf.classList.add("completed");
+      getShelfItems(shelf).forEach(item => item.classList.add("locked"));
+
+      gsap.fromTo(
+        shelf.querySelector(".shutter"),
+        { scale: 0.7, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.25 }
+      );
 
       completedShelves++;
       updateUI();
@@ -632,74 +939,133 @@
       if (completedShelves >= SHELF_COUNT) {
         gameEnded = true;
         updateUI();
-        confetti({ particleCount: 240, spread: 110 });
-        setTimeout(() => { winEl.style.display = 'flex'; }, 700);
+
+        confetti({
+          particleCount: 240,
+          spread: 110
+        });
+
+        setTimeout(() => {
+          winEl.style.display = "flex";
+        }, 700);
       }
     }
 
     function checkShelf(shelf) {
       if (!shelf || isShelfCompleted(shelf)) return;
+
       const items = getShelfItems(shelf);
       if (items.length !== SLOT_PER_SHELF) return;
-      const category = items[0].dataset.category;
-      const allSame = items.every(item => item.dataset.category === category);
-      if (allSame) completeShelf(shelf);
+
+      const cat = items[0].dataset.category;
+      const allSameCategory = items.every(item => item.dataset.category === cat);
+
+      if (allSameCategory) {
+        completeShelf(shelf);
+      }
     }
 
     function chooseSpawnSlots(spawnCount) {
-      const phase = getPhase();
-      const partialShelves = getOpenShelves().filter(shelf => {
+      let emptySlots = getEmptySlots();
+      if (emptySlots.length === 0) return [];
+
+      const partiallyFilledShelves = getOpenShelves().filter(shelf => {
         const count = getShelfItems(shelf).length;
         return count > 0 && count < SLOT_PER_SHELF;
       });
-      const partialSlots = partialShelves.flatMap(shelf => getShelfSlots(shelf).filter(slot => !slot.hasChildNodes()));
-      const emptyShelves = getOpenShelves().filter(shelf => getShelfItems(shelf).length === 0);
-      const emptySlots = emptyShelves.flatMap(shelf => getShelfSlots(shelf).filter(slot => !slot.hasChildNodes()));
 
-      let weighted = [];
-      if (phase === 'early') weighted = shuffle([...partialSlots, ...emptySlots]);
-      if (phase === 'mid') weighted = shuffle([...partialSlots, ...partialSlots, ...emptySlots]);
-      if (phase === 'late') weighted = shuffle([...partialSlots, ...partialSlots, ...partialSlots, ...emptySlots]);
+      const partialSlots = partiallyFilledShelves.flatMap(shelf =>
+        getShelfSlots(shelf).filter(slot => !slot.hasChildNodes())
+      );
+
+      const pureEmptyShelves = getOpenShelves().filter(shelf => getShelfItems(shelf).length === 0);
+      const pureEmptySlots = pureEmptyShelves.flatMap(shelf =>
+        getShelfSlots(shelf).filter(slot => !slot.hasChildNodes())
+      );
+
+      const tempSlots = getEmptyTempSlots();
+
+      let prioritized = [];
+      const phase = getPhase();
+
+      if (phase === "early") {
+        prioritized = shuffle([
+          ...partialSlots,
+          ...pureEmptySlots,
+          ...tempSlots
+        ]);
+      } else if (phase === "mid") {
+        prioritized = shuffle([
+          ...partialSlots,
+          ...partialSlots,
+          ...pureEmptySlots,
+          ...tempSlots
+        ]);
+      } else {
+        prioritized = shuffle([
+          ...partialSlots,
+          ...partialSlots,
+          ...partialSlots,
+          ...pureEmptySlots,
+          ...tempSlots
+        ]);
+      }
 
       const unique = [];
       const seen = new Set();
-      for (const slot of weighted) {
-        const key = `${slot.parentElement.dataset.id}_${slot.dataset.slot}`;
+
+      for (const slot of prioritized) {
+        const parent = slot.parentElement;
+        const key = parent.classList.contains("shelf")
+          ? parent.dataset.id + "_" + (slot.dataset.slot || "x")
+          : "temp_" + [...parent.children].indexOf(slot);
+
         if (!seen.has(key) && !slot.hasChildNodes()) {
           seen.add(key);
           unique.push(slot);
         }
       }
+
       return unique.slice(0, spawnCount);
     }
 
     function spawnOne(slot) {
-      const category = pickSpawnCategory();
+      const category = pickCategory();
       if (!category) return;
-      const asset = pickAssetForCategory(category);
-      remainingSupply[category] -= 1;
-      rememberSpawn(category, asset);
-      const item = createItem(category, asset);
+
+      const assetFile = pickAssetForCategory(category);
+      rememberSpawn(category, assetFile);
+
+      const item = createItem(category, assetFile);
       slot.appendChild(item);
-      updateUI();
+
+      remainingSupply[category] -= 1;
 
       gsap.from(item, {
         scale: 0,
         y: 26,
         duration: 0.22,
-        ease: 'back.out(1.6)'
+        ease: "back.out(1.6)"
       });
     }
 
-    function canOpenCrate() {
-      return !gameEnded && crowbars >= CRATE_COST && getTotalRemainingSupply() > 0 && getEmptyShelfSlots().length > 0;
-    }
-
     function openCrate() {
-      if (!canOpenCrate()) {
-        if (getTotalRemainingSupply() <= 0) showHint('No more supply. Sort the board.');
-        else if (getEmptyShelfSlots().length <= 0) showHint('No empty shelf slot. Use temp storage.');
-        else showHint('Not enough crowbars.');
+      if (gameEnded) return;
+
+      if (crowbars < CRATE_COST) {
+        showHint("Not enough crowbars.");
+        return;
+      }
+
+      const allEmpty = [...getEmptySlots(), ...getEmptyTempSlots()];
+      if (allEmpty.length === 0) {
+        showHint("No empty slot available.");
+        return;
+      }
+
+      const availableCats = getAvailableCategories();
+      if (availableCats.length === 0) {
+        showHint("No more supply.");
         return;
       }
 
@@ -707,11 +1073,24 @@
       crateOpenCount++;
       updateUI();
 
-      gsap.to('#crate-art', { scale: 0.84, duration: 0.1, yoyo: true, repeat: 1 });
+      gsap.to("#crate-art", {
+        scale: 0.84,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1
+      });
 
-      const spawnCount = getSpawnCount();
-      const slots = chooseSpawnSlots(spawnCount);
-      slots.forEach((slot, index) => setTimeout(() => spawnOne(slot), index * 70));
+      const spawnCount = Math.min(getSpawnCount(), Object.values(remainingSupply).reduce((a, b) => a + b, 0));
+      const targetSlots = chooseSpawnSlots(spawnCount);
+
+      if (targetSlots.length === 0) {
+        showHint("No valid spawn slot.");
+        return;
+      }
+
+      targetSlots.forEach((slot, index) => {
+        setTimeout(() => spawnOne(slot), index * 70);
+      });
     }
 
     function preloadAssets() {
@@ -722,10 +1101,8 @@
     }
 
     function seedBoard() {
-      // Start from the same finite supply.
-      const initialCount = 6;
-      const slots = chooseSpawnSlots(initialCount);
-      slots.forEach(slot => spawnOne(slot));
+      const initialSlots = chooseSpawnSlots(6);
+      initialSlots.forEach(slot => spawnOne(slot));
     }
 
     preloadAssets();
